@@ -32,11 +32,13 @@ export default class HolbertonCourse {
 
   set students(students) {
     this._checkType(students, 'array', 'Students');
-    students.forEach(student => this._checkType(student, 'string', 'Students'));
+    students.forEach((student) => this._checkType(student, 'string', 'Students'));
     this._students = students;
   }
 
-  _checkType(value, type, variableName, errorMessage) {
+  // eslint-disable-next-line class-methods-use-this
+  _checkType(value, type, variableName, errorMessageParam) {
+    let errorMessage = errorMessageParam;
     if (!errorMessage) {
       switch (type) {
         case 'string':
@@ -49,14 +51,15 @@ export default class HolbertonCourse {
           errorMessage = `${variableName} must be an array of strings`;
           break;
         default:
-          errorMessage = `Invalid type`;
+          errorMessage = 'Invalid type';
       }
     }
 
     if (type === 'array') {
-      if (!Array.isArray(value) || !value.every(item => typeof item === 'string')) {
+      if (!Array.isArray(value) || !value.every((item) => typeof item === 'string')) {
         throw new TypeError(errorMessage);
       }
+      // eslint-disable-next-line valid-typeof
     } else if (typeof value !== type) {
       throw new TypeError(errorMessage);
     }
