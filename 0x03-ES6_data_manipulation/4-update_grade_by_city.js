@@ -2,8 +2,8 @@ export default function updateStudentGradeByCity(listStudents, targetLocation, n
   return listStudents
     .filter(({ location }) => location === targetLocation)
     .map((obj) => {
-      const targetNewGrade = newGrades.filter(({ studentId }) => studentId === obj.id);
-      const { grade = 'N/A' } = targetNewGrade.length > 0 ? targetNewGrade[0] : {};
+      const xtargetNewGrade = newGrades.filter(({ studentId }) => studentId === obj.id);
+      const { grade = 'N/A' } = xtargetNewGrade.length > 0 ? xtargetNewGrade[0] : {};
       return { ...obj, grade };
     });
 }
