@@ -1,12 +1,12 @@
 export default function cleanSet(xSet, xStartString) {
-  if (!xSet || !xStartString || typeof xStartString !== 'string' || xStartString.length === 0) {
+  if (!xStartString || typeof xStartString !== 'string' || xStartString.length === 0) {
     return '';
   }
-  if (xSet instanceof Set !== true || Array.from(xSet).some((ele) => typeof ele !== 'string')) {
+  if (!xSet || xSet instanceof Set !== true) {
     return '';
   }
   return Array.from(xSet)
-    .filter((ele) => ele.startsWith(xStartString) && xStartString.length > 0)
+    .filter((ele) => ele.startsWith(xStartString) && ele.length > 0)
     .map((ele) => ele.replace(xStartString, ''))
     .join('-');
 }
