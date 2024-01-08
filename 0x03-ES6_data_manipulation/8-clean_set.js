@@ -1,8 +1,8 @@
 export default function cleanSet(xSet, xStartString) {
-  if (!xSet || !xStartString) {
+  if (!xSet || !xStartString || typeof xStartString !== 'string' || xStartString.length === 0) {
     return '';
   }
-  if (xSet instanceof Set !== true || typeof xStartString !== 'string') {
+  if (xSet instanceof Set !== true || Array.from(xSet).some(ele => typeof ele !== 'string')) {
     return '';
   }
   return Array.from(xSet)
