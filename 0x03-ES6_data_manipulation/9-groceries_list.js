@@ -3,7 +3,7 @@ export default function groceriesList() {
     ['Apples', 10],
     ['Tomatoes', 10],
     ['Pasta', 1],
-    ['Rise', 1],
-    ['Banna', 5],
+    ['Rice', 1],
+    ['Banana', 5],
   ]);
 }
