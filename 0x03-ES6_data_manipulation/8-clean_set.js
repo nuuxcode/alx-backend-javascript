@@ -1,4 +1,7 @@
 export default function cleanSet(xSet, xStartString) {
+  if (!xSet || !xStartString) {
+    return '';
+  }
   if (xSet instanceof Set !== true || typeof xStartString !== 'string') {
     return '';
   }
