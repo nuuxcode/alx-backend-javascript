@@ -1,5 +1,5 @@
 export default function cleanSet(xSet, xStartString) {
-  if (!xSet || !xStartString) {
+  if (xSet instanceof Set !== true || typeof xStartString !== 'string') {
     return '';
   }
   return Array.from(xSet)
