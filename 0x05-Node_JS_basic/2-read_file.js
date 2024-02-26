@@ -1,42 +1,32 @@
 const fs = require('fs');
-const readline = require('readline');
 
 function countStudents(path) {
-  const stream = fs.createReadStream(path);
-  stream.on('error', () => {
+  if (!fs.existsSync(path)) {
     throw new Error('Cannot load the database');
-  });
-  try {
-    const rl = readline.createInterface({
-      input: stream,
-      output: process.stdout,
-      terminal: false,
-    });
-    const hashtable = {};
-    let students = -1;
-    rl.on('line', (line) => {
-      if (line.trim() === '') return;
-      const colums = line.split(',');
-      const field = colums[3];
-      const firstname = colums[0];
-      if (students >= 0) {
-        if (!Object.hasOwnProperty.call(hashtable, field)) {
-          hashtable[field] = [];
-        }
-        hashtable[field] = [...hashtable[field], firstname];
+  }
+
+  const data = fs.readFileSync(path, 'utf8');
+  const lines = data.split('\n');
+  const hashtable = {};
+  let students = -1;
+  for (const line of lines) {
+    if (line.trim() === '') continue;
+    const columns = line.split(',');
+    const field = columns[3];
+    const firstname = columns[0];
+    if (students >= 0) {
+      if (!Object.hasOwnProperty.call(hashtable, field)) {
+        hashtable[field] = [];
       }
-      students += 1;
-    });
-    rl.on('close', () => {
-      console.log(`Number of students: ${students}`);
-      for (const key in hashtable) {
-        if (Object.hasOwnProperty.call(hashtable, key)) {
-          console.log(`Number of students in ${key}: ${hashtable[key].length}. List: ${hashtable[key].join(', ')}`);
-        }
-      }
-    });
-  } catch (err) {
-    throw new Error('Cannot load the database');
+      hashtable[field] = [...hashtable[field], firstname];
+    }
+    students += 1;
+  }
+  console.log(`Number of students: ${students}`);
+  for (const key in hashtable) {
+    if (Object.hasOwnProperty.call(hashtable, key)) {
+      console.log(`Number of students in ${key}: ${hashtable[key].length}. List: ${hashtable[key].join(', ')}`);
+    }
   }
 }
 
