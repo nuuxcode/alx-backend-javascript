@@ -7,9 +7,8 @@ function countStudents(path) {
       throw new Error('Cannot load the database');
     }
   });
-  const fileStream = fs.createReadStream(path);
   const rl = readline.createInterface({
-    input: fileStream,
+    input: fs.createReadStream(path),
     output: process.stdout,
     terminal: false,
   });
@@ -31,13 +30,10 @@ function countStudents(path) {
     console.log(`Number of students: ${students}`);
     for (const key in hashtable) {
       if (Object.hasOwnProperty.call(hashtable, key)) {
-        const students = [];
-        hashtable[key].forEach((value) => {
-          students.push(value);
-        });
-        console.log(`Number of students in ${key}: ${students.length}. List: ${students.join(', ')}`);
+        console.log(`Number of students in ${key}: ${hashtable[key].length}. List: ${hashtable[key].join(', ')}`);
       }
     }
   });
 }
+
 module.exports = countStudents;
