@@ -15,6 +15,7 @@ function countStudents(path) {
     const hashtable = {};
     let students = -1;
     rl.on('line', (line) => {
+      if (line.trim() === '') return;
       const colums = line.split(',');
       const field = colums[3];
       const firstname = colums[0];
