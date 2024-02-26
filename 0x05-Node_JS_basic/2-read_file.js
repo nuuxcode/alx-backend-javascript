@@ -10,17 +10,18 @@ function countStudents(path) {
   const hashtable = {};
   let students = -1;
   for (const line of lines) {
-    if (line.trim() === '') continue;
-    const columns = line.split(',');
-    const field = columns[3];
-    const firstname = columns[0];
-    if (students >= 0) {
-      if (!Object.hasOwnProperty.call(hashtable, field)) {
-        hashtable[field] = [];
+    if (line.trim() !== '') {
+      const columns = line.split(',');
+      const field = columns[3];
+      const firstname = columns[0];
+      if (students >= 0) {
+        if (!Object.hasOwnProperty.call(hashtable, field)) {
+          hashtable[field] = [];
+        }
+        hashtable[field] = [...hashtable[field], firstname];
       }
-      hashtable[field] = [...hashtable[field], firstname];
+      students += 1;
     }
-    students += 1;
   }
   console.log(`Number of students: ${students}`);
   for (const key in hashtable) {
