@@ -49,7 +49,7 @@ const app = http.createServer((req, res) => {
       })
       .catch((error) => {
         res.writeHead(404);
-        res.end(error.message);
+        res.end(`This is the list of our students\n${error.message}`);
       });
   } else {
     res.writeHead(404);
