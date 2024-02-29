@@ -8,6 +8,12 @@ describe('calculateNumber', () => {
   it('should return 5 when inputs are 1 and 3.7', () => {
     assert.strictEqual(calculateNumber(1, 3.7), 5);
   });
+  it('should return 4 when inputs are 1 and 3', () => {
+    assert.strictEqual(calculateNumber(3, 1), 4);
+  });
+  it('should return 5 when inputs are 1 and 3.7', () => {
+    assert.strictEqual(calculateNumber(3.7, 1), 5);
+  });
   it('should return 5 when inputs are 1.2 and 3.7', () => {
     assert.strictEqual(calculateNumber(1.2, 3.7), 5);
   });
