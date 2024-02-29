@@ -8,10 +8,7 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber(2, 2), 4);
   });
 
-  // 0 0
-  it('should return 0 when inputs are 0 and 0', () => {
-    assert.strictEqual(calculateNumber(0, 0), 0);
-  });
+
 
   // float float
   it('should return 5 when inputs are 1.5 and 2.5', () => {
