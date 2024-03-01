@@ -1,28 +1,117 @@
-const request = require('supertest');
-const app = require('./api');
+const request = require("request");
+const {describe, it} = require("mocha");
+const expect = require("chai").expect;
 
-describe('POST /login', () => {
-  it('responds with a welcome message', async () => {
-    const response = await request(app)
-      .post('/login')
-      .send({ userName: 'Betty' })
-      .set('Accept', 'application/json');
-
-    expect(response.text).toEqual('Welcome Betty');
-    expect(response.statusCode).toBe(200);
-  });
+describe("Home page", function() {
+    const options = {
+    url: "http://localhost:7865/",
+    method: "GET"
+    }
+    it("check correct status code", function(done) {
+    request(options, function(err, res, body) {
+        expect(res.statusCode).to.equal(200);
+        done();
+    });
+    });
+    it("check correct content", function(done) {
+    request(options, function(err, res, body) {
+        expect(body).to.equal("Welcome to the payment system");
+        done();
+    });
+    });
 });
 
-describe('GET /available_payments', () => {
-  it('responds with payment methods', async () => {
-    const response = await request(app).get('/available_payments');
+describe("Cart page", function() {
+    it("check correct status code for correct url", function(done) {
+    request.get("http://localhost:7865/cart/12", function(err, res, body) {
+        expect(res.statusCode).to.equal(200);
+        done();
+    });
+    });
+    it("check correct content for correct url", function(done) {
+    request.get("http://localhost:7865/cart/12", function(err, res, body) {
+        expect(body).to.equal("Payment methods for cart 12");
+        done();
+    });
+    });
+    it("check correct status code for incorrect url", function(done) {
+    request.get("http://localhost:7865/cart/hello", function(err, res, body) {
+        expect(res.statusCode).to.equal(404);
+        done();
+    });
+    });
+});
 
-    expect(response.body).toEqual({
-      payment_methods: {
+describe("Available_payments page", function() {
+    it("check correct status for correct url", function() {
+    request.get("http://localhost:7865/available_payments", (err, res, body) => {
+        if (err) {
+        expect(res.statusCode).to.not.equal(200);
+        } else {
+        expect(res.statusCode).to.equal(200);
+        }
+    });
+    });
+    it("check correct body content for correct url", function() {
+    const option = {json: true};
+    const payLoad = {
+        payment_methods: {
         credit_cards: true,
         paypal: false
-      }
+        }
+    }
+    request.get("http://localhost:7865/available_payments", option, (err, res, body) => {
+        if (err) {
+        expect(res.statusCode).to.not.equal(200);
+        } else {
+        expect(body).to.deep.equal(payLoad);
+        }
     });
-    expect(response.statusCode).toBe(200);
-  });
+    });
+});
+
+describe("Login", function() {
+    it("check correct status code for request that's sent properly", function(done) {
+    const opt = {
+        url: "http://localhost:7865/login",
+        json: true,
+	    body: {
+        user: 'JOE'
+        }
+    };
+    request.post(opt, function(err, res, body) {
+        expect(res.statusCode).to.equal(200);
+        done();
+    });
+    });
+    it("check correct content for request that's sent properly", function(done) {
+    const opts = {
+        url: "http://localhost:7865/login",
+        json: true,
+        body: {
+        user: 'JOE'
+        }
+    };
+    request.post(opts, function(err, res, body) {
+        if (err) {
+        expect(res.statusCode).to.not.equal(200);
+        } else {
+        expect(body).to.contain('Welcome JOE');
+        }
+        done();
+    });
+    });
+    it("check correct status code for request that's not sent properly", function(done) {
+    const op = {
+        url: "http://localhost:7865/login",
+        json: true,
+        body: {
+        usr: 'JOE'
+        }
+    };
+    request.post(op, function(err, res, body) {
+        expect(res.statusCode).to.equal(404);
+        done();
+    });
+    });
 });
